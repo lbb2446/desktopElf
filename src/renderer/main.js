@@ -10,9 +10,10 @@ import ref from 'vue-ref'
 
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
+import db from './datastore.js'
 Vue.use(Antd)
 Vue.use(ref, { name: 'ant-ref' })
-
+Vue.prototype.$db = db
 Vue.use(iView)
 // import { DatePicker } from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.css'

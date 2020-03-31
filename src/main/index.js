@@ -32,6 +32,7 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
   // let myNotification = new Notification('标题', {
   //   body: '通知正文内容'
   // })
@@ -40,6 +41,20 @@ function createWindow () {
   //   console.log('通知被点击')
   // }
 }
+
+const {ipcMain} = require('electron')
+ipcMain.on('mini', (event, arg) => {
+  console.log(arg) // prints "ping"
+  // event.sender.send('asynchronous-reply', 'pong')
+  mainWindow.setSize(100, 100)
+  mainWindow.loadURL(winURL + '#/mini')
+})
+ipcMain.on('normal', (event, arg) => {
+  console.log(arg) // prints "ping"
+  // event.sender.send('asynchronous-reply', 'pong')
+  mainWindow.setSize(600, 200)
+  mainWindow.loadURL(winURL + '#/')
+})
 
 app.on('ready', createWindow)
 

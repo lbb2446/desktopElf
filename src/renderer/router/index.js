@@ -11,6 +11,11 @@ export default new Router({
       component: require('@/components/LandingPage').default
     },
     {
+      path: '/mini',
+      name: 'landing-page',
+      component: require('@/components/Mini').default
+    },
+    {
       path: '*',
       redirect: '/'
     }
