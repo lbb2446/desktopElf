@@ -1,7 +1,8 @@
 'use strict'
 
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow,Tray ,Menu} from 'electron'
 
+let path=require("path")
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
@@ -61,7 +62,36 @@ ipcMain.on('sendmsg', (event, arg) => {
   // event.sender.send('asynchronous-reply', 'pong')
 
 })
-app.on('ready', createWindow)
+app.on('ready', async () => {
+  // if (isDevelopment && !process.env.IS_TEST) {
+  // }
+  // 设置托盘
+  let iconPath = path.join(__dirname,"../renderer/assets/logo.png")
+  const tray = new Tray(iconPath)
+  // 设置托盘菜单
+  const trayContextMenu = Menu.buildFromTemplate([
+    {
+      label: '打开',
+      click: () => {
+        mainWindow.show()
+      }
+    }, {
+      label: '退出',
+      click: () => {
+        app.quit()
+      }
+    }
+  ])
+  tray.setToolTip('myApp')
+  tray.on('click', () => {
+    mainWindow.show()
+  })
+  tray.on('right-click', () => {
+    tray.popUpContextMenu(trayContextMenu)
+  })
+  // 创建渲染窗口
+  createWindow()
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
