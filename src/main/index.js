@@ -20,9 +20,9 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 426,
     useContentSize: true,
-    width: 1000,
+    width: 204,
     frame: false, // 无边框
     transparent: true// 背景透明
   })
@@ -46,22 +46,21 @@ const {ipcMain} = require('electron')
 ipcMain.on('mini', (event, arg) => {
   console.log(arg) // prints "ping"
   // event.sender.send('asynchronous-reply', 'pong')
-  mainWindow.setSize(100, 100)
-  mainWindow.loadURL(winURL + '#/mini')
-})
-ipcMain.on('drink', (event, arg) => {
-  console.log(arg) // prints "ping"
-  // event.sender.send('asynchronous-reply', 'pong')
-  mainWindow.setSize(280, 480)
-  mainWindow.loadURL(winURL + '#/drink')
+  mainWindow.setSize(204, 426)
+  mainWindow.loadURL(winURL + '#/')
 })
 ipcMain.on('normal', (event, arg) => {
   console.log(arg) // prints "ping"
   // event.sender.send('asynchronous-reply', 'pong')
-  mainWindow.setSize(600, 200)
+  mainWindow.setSize(554, 430)
   mainWindow.loadURL(winURL + '#/')
 })
 
+ipcMain.on('sendmsg', (event, arg) => {
+  console.log(arg) // prints "ping"
+  // event.sender.send('asynchronous-reply', 'pong')
+
+})
 app.on('ready', createWindow)
 
 app.on('window-all-closed', () => {

@@ -378,31 +378,31 @@ export let under=[ "under_baby",
 //心情
 //言语
 //脚本系统
-class mood {
-  constructor(){
-    this.state=""//happy sad  anger  
-    this.value=0
-  }
-  add(){
+// class mood {
+//   constructor(){
+//     this.state=""//happy sad  anger  
+//     this.value=0
+//   }
+//   add(){
 
-  }
-  get value(){
-   return this.value
-  }
-  set value(value){
-    //if value >50
-     this.value=value
-  }
-}
-
-
+//   }
+//   get value(){
+//    return this.value
+//   }
+//   set value(value){
+//     //if value >50
+//      this.value=value
+//   }
+// }
 
 
 
-class Human extends mood{
-  constructor ({mood}){
-    super(mood)
-    this.mood=mood
-  }
-}
-export default Human
+
+
+// class Human {
+//   constructor ({mood}){
+//     // super(mood)
+//     this.mood=mood
+//   }
+// }
+// export default Human

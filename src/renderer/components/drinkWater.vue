@@ -160,7 +160,6 @@ export default {
 
 <style  scoped>
 body {
-  background: #f0f6fc;
   font: 14px/1 "Open Sans", helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
 }

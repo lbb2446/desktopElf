@@ -22,7 +22,7 @@ export default {
       },
       dois (a) {
         console.log('xixi')
-        this.$electron.ipcRenderer.send('normal')
+        this.$electron.ipcRenderer.send('doll')
       }
     }
   }
