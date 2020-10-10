@@ -49,6 +49,12 @@ ipcMain.on('mini', (event, arg) => {
   mainWindow.setSize(100, 100)
   mainWindow.loadURL(winURL + '#/mini')
 })
+ipcMain.on('drink', (event, arg) => {
+  console.log(arg) // prints "ping"
+  // event.sender.send('asynchronous-reply', 'pong')
+  mainWindow.setSize(280, 480)
+  mainWindow.loadURL(winURL + '#/drink')
+})
 ipcMain.on('normal', (event, arg) => {
   console.log(arg) // prints "ping"
   // event.sender.send('asynchronous-reply', 'pong')

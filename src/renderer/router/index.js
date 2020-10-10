@@ -16,6 +16,11 @@ export default new Router({
       component: require('@/components/Mini').default
     },
     {
+      path: '/drink',
+      name: 'drink',
+      component: require('@/components/drinkWater').default
+    },
+    {
       path: '*',
       redirect: '/'
     }

@@ -78,7 +78,7 @@ export default {
         this.$electron.shell.openExternal(link)
       },
       dois (a) {
-        this.$electron.ipcRenderer.send('mini')
+        this.$electron.ipcRenderer.send('drink')
       }
     }
   }
