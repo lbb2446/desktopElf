@@ -62,6 +62,11 @@ ipcMain.on('sendmsg', (event, arg) => {
   // event.sender.send('asynchronous-reply', 'pong')
 
 })
+
+ipcMain.on('changesize', (event, arg) => {
+  console.log(arg)
+  mainWindow.setSize(554, 430)
+})
 app.on('ready', async () => {
   // if (isDevelopment && !process.env.IS_TEST) {
   // }

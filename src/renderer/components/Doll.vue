@@ -2,7 +2,7 @@
   <div class="hello"
     id="wrapper">
     <div @click="toggle(!show)" >设置</div><div style="-webkit-app-region: drag;">拖动</div>
-    
+    <div> save</div>
     <li class="doll"
       :style="{zIndex:1000-i}"
       v-for="(v,k,i) in body"
@@ -12,8 +12,6 @@
         :src="getImg(v)"
         :alt="i">
     </li>
-
-    
     <List  v-if="show"
       class="tool"
       border>
@@ -32,6 +30,7 @@
       </CheckboxGroup>
 
     </List>
+    
     <!-- <div class="anime1"></div> -->
 
   </div>
@@ -84,6 +83,16 @@ export default {
           hair_b: "hair_semi_back_main_vampire",
         },
       ],
+      moods:{
+        happy:{
+          face_f: "face_shy_front",
+          face_b: "face_shy_back_japan",
+        },
+        sad:{
+           face_f: "face_shy_front",
+          face_b: "face_shy_back_japan",
+        }
+      },
       checked: [
         "cat",
         "hair_f",
