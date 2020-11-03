@@ -64,7 +64,8 @@ ipcMain.on('sendmsg', (event, arg) => {
 })
 
 ipcMain.on('changesize', (event, arg) => {
-  console.log(arg)
+  console.log(arg.width,arg.height)
+  mainWindow.setSize(arg.width, arg.height)
   mainWindow.setSize(554, 430)
 })
 app.on('ready', async () => {

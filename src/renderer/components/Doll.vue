@@ -1,8 +1,8 @@
 <template>
   <div class="hello"
     id="wrapper">
-    <div @click="toggle(!show)" >设置</div><div style="-webkit-app-region: drag;">拖动</div>
-    <div> save</div>
+    <Icon type="md-settings" color="white" @click="toggle(!show)" />
+    <Icon type="md-hand" color="white" style="-webkit-app-region: drag;" />
     <li class="doll"
       :style="{zIndex:1000-i}"
       v-for="(v,k,i) in body"
@@ -156,14 +156,21 @@ export default {
   },
   methods: {
       toggle(show){
-          console.log("dianji")
-          this.$electron.ipcRenderer.send('sendmsg')
          this.show=!this.show
          if(this.show){
-              this.$electron.remote.getCurrentWindow().setSize(604, 600)
+              this.$electron.ipcRenderer.send('changesize',{
+                width:604,
+                height:1000
+              })
+              
           }else{
-              this.$electron.remote.getCurrentWindow().setSize(204, 426)
+                this.$electron.ipcRenderer.send('changesize',{
+                width:204,
+                height:426
+              })
           }
+        
+       
       },
     getImg(name) {
       return require(`./../assets/doll1/${name}.png`);
@@ -199,6 +206,7 @@ export default {
   height: 416px;
   left: 0;
   top: 10;
+  
 }
 .tool {
   position: absolute;
