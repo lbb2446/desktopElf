@@ -1,8 +1,12 @@
 <template>
   <div class="hello"
     id="wrapper">
-    <Icon type="md-settings" color="white" @click="toggle(!show)" />
-    <Icon type="md-hand" color="white" style="-webkit-app-region: drag;" />
+      <div style="position:fixed;z-index:99999">
+    <Button shape="circle" icon="md-hand"  style="-webkit-app-region: drag;"></Button>
+    <Button shape="circle" icon="md-settings" @click="toggle(!show)"></Button>
+    <Button shape="circle" icon="ios-arrow-round-down" @click="save"></Button>
+    
+    </div>
     <li class="doll"
       :style="{zIndex:1000-i}"
       v-for="(v,k,i) in body"
@@ -56,6 +60,11 @@ function seletedDecoration(arr) {
     return { value: t, label: t };
   });
 }
+let tmps=[{
+  name:"A",
+  json:{"cat":"acce_neck","hair_f":"hair_semi_front_main_normal","face_f":"face_cold_front","face_b":"face_normal_back_japan","hair_s":"hair_queen_front_shadow","outside_f":"outer_muffler_red_front","top":"tops_tanktop_white","bottom":"bottoms_tight_black","under":"under_rope","body":"nude","outside_b":"outer_muffler_red_back","hair_b":"hair_semi_back_main_normal"}
+}]
+
 
 //anime,b和f要有关联
 
@@ -155,8 +164,14 @@ export default {
     },
   },
   methods: {
+    save(){
+        localStorage.setItem("body",JSON.stringify(this.body))
+      console.log(JSON.stringify(this.body))//制作模版用
+    },
       toggle(show){
+        console.log(show)
          this.show=!this.show
+
          if(this.show){
               this.$electron.ipcRenderer.send('changesize',{
                 width:604,
@@ -179,6 +194,15 @@ export default {
   props: {
     msg: String,
   },
+  mounted(){
+
+      //如果缓存里有数据 就直接读取上次缓存的数据
+    if(localStorage.getItem("body")!=null){
+        this.body=JSON.parse(localStorage.getItem("body"))
+    }
+    //
+
+  }
 };
 </script>
 
@@ -201,7 +225,7 @@ export default {
   }
 }
 .doll {
-  position: absolute;
+  position: fixed;
   width: 208px;
   height: 416px;
   left: 0;
@@ -214,10 +238,10 @@ export default {
   width: 600px;
 }
 .hello {
-     position: relative;
+     /* position: relative; */
     overflow: hidden;
     background: none;
-    height: 426px;
+    /* height: 426px; */
 }
 h3 {
   margin: 40px 0 0;
