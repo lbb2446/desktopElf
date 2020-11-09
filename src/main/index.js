@@ -72,29 +72,29 @@ app.on('ready', async () => {
   // if (isDevelopment && !process.env.IS_TEST) {
   // }
   // 设置托盘
-  let iconPath = path.join(__dirname,"../renderer/assets/logo.png")
-  const tray = new Tray(iconPath)
-  // 设置托盘菜单
-  const trayContextMenu = Menu.buildFromTemplate([
-    {
-      label: '打开',
-      click: () => {
-        mainWindow.show()
-      }
-    }, {
-      label: '退出',
-      click: () => {
-        app.quit()
-      }
-    }
-  ])
-  tray.setToolTip('myApp')
-  tray.on('click', () => {
-    mainWindow.show()
-  })
-  tray.on('right-click', () => {
-    tray.popUpContextMenu(trayContextMenu)
-  })
+  // let iconPath = path.join(__dirname,"../renderer/assets/logo.png")
+  // const tray = new Tray(iconPath)
+  // // 设置托盘菜单
+  // const trayContextMenu = Menu.buildFromTemplate([
+  //   {
+  //     label: '打开',
+  //     click: () => {
+  //       mainWindow.show()
+  //     }
+  //   }, {
+  //     label: '退出',
+  //     click: () => {
+  //       app.quit()
+  //     }
+  //   }
+  // ])
+  // tray.setToolTip('myApp')
+  // tray.on('click', () => {
+  //   mainWindow.show()
+  // })
+  // tray.on('right-click', () => {
+  //   tray.popUpContextMenu(trayContextMenu)
+  // })
   // 创建渲染窗口
   createWindow()
 })

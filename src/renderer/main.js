@@ -4,15 +4,15 @@ import axios from 'axios'
 import App from './App'
 import router from './router'
 import store from './store'
-import 'ant-design-vue/dist/antd.css'
-import Antd from 'ant-design-vue'
-import ref from 'vue-ref'
+// import 'ant-design-vue/dist/antd.css'
+// import Antd from 'ant-design-vue'
+// import ref from 'vue-ref'
 
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import db from './datastore.js'
-Vue.use(Antd)
-Vue.use(ref, { name: 'ant-ref' })
+// Vue.use(Antd)
+// Vue.use(ref, { name: 'ant-ref' })
 Vue.prototype.$db = db
 Vue.use(iView)
 // import { DatePicker } from 'ant-design-vue'
