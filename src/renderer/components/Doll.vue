@@ -24,8 +24,8 @@
         <ListItem v-for="(v,k) in config"
           :key="k">
           <Checkbox :label="k"></Checkbox>
-          <Select v-model="body[k]"
-            style="width:200px">
+          <Select style="width:200px" v-model="body[k]"
+            >
             <Option v-for="item in v"
               :value="item.value"
               :key="item.value">{{ item.label }}</Option>
@@ -200,7 +200,8 @@ export default {
     if(localStorage.getItem("body")!=null){
         this.body=JSON.parse(localStorage.getItem("body"))
     }
-    //
+    //每次打开 报下时间和万年历
+    //如果设置随机刷新套装就刷新套装
 
   }
 };
@@ -242,20 +243,6 @@ export default {
     overflow: hidden;
     background: none;
     /* height: 426px; */
-}
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
 }
 body{
     background: none;
