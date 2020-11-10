@@ -70,104 +70,126 @@ let eystype={
   1:"normal",
   2:"vampire"
 }
-let f=[ 
-"face_batsu2_back",
-"face_batsu2_front",
-"face_cold_back_japan",
+
+//anime,b和f要有关联
+var moodType={
+  cold:{
+    name:"有点冷",
+    coordinate:[0,-3],
+    value:["face_cold_back_japan",
 "face_cold_back_normal",
 "face_cold_back_vampire",
-"face_cold_front",
-"face_cry2_back",
-"face_cry2_front",
-"face_cry_back",
-"face_cry_front",
-"face_fsmile2_back_japan",
+"face_cold_front"]
+  },
+  happy:{
+    name:"开心",
+    coordinate:[-1,-1],
+   value:["face_fsmile2_back_japan",
 "face_fsmile2_back_normal",
 "face_fsmile2_back_vampire",
-"face_fsmile2_front",
-"face_fsmile_back_japan",
+"face_fsmile2_front"]
+},
+  happy2:{
+    value:["face_fsmile_back_japan",
 "face_fsmile_back_normal",
 "face_fsmile_back_vampire",
-"face_fsmile_front",
-"face_hurry_back_japan",
-"face_hurry_back_normal",
-"face_hurry_back_vampire",
-"face_hurry_front",
-"face_loneliness_back_japan",
-"face_loneliness_back_normal",
-"face_loneliness_back_vampire",
-"face_loneliness_front",
-"face_normal_back_japan",
-"face_normal_back_normal",
-"face_normal_back_vampire",
-"face_normal_front",
-"face_shame1_back_japan",
-"face_shame1_back_normal",
-"face_shame1_back_vampire",
-"face_shame1_front",
-"face_shame2_back_japan",
-"face_shame2_back_normal",
-"face_shame2_back_vampire",
-"face_shame2_front",
-"face_shy_back_japan",
-"face_shy_back_normal",
-"face_shy_back_vampire",
-"face_shy_front",
-"face_smile_back",
+"face_fsmile_front"]
+  },
+  veryhappy:{
+    value:["face_smile_back",
 "face_smile_back_japan",
 "face_smile_back_normal",
 "face_smile_back_vampire",
-"face_smile_front",
-"face_surprise_back_japan",
-"face_surprise_back_normal",
-"face_surprise_back_vampire",
-"face_surprise_front",
-"face_talk_back_japan",
-"face_talk_back_normal",
-"face_talk_back_vampire",
-"face_talk_front",
-"face_temptation_back_japan",
-"face_temptation_back_normal",
-"face_temptation_back_vampire",
-"face_temptation_front",
-"face_worry_back_japan",
-"face_worry_back_normal",
-"face_worry_back_vampire",
-"face_worry_front",
-"face_wsmile_back",
+"face_smile_front"]
+  },
+   veryhappy1:{
+    value:["face_wsmile_back",
 "face_wsmile_back_japan",
 "face_wsmile_back_normal",
 "face_wsmile_back_vampire",
 "face_wsmile_front"]
-//anime,b和f要有关联
-let moodType={
-  happy:[],
-  happy2:{
-
-  },
-  veryhappy:{
-
   },
   batsu:{
     name:"挣扎",
-    range:[-1,-1],
+    coordinate:[-1,-1],
    value: ["face_batsu1_back",
 "face_batsu1_front"]
 },
+batsu1:{
+   name:"挣扎2",
+  coordinate:[-2,-2],
+  value:["face_batsu2_back",
+"face_batsu2_front"]
+},
   cry1:{
-
+value:["face_cry_back",
+"face_cry_front"]
   },
   cry2:{
-
+value:["face_cry2_back",
+"face_cry2_front"]
   },
-  hurry:{},
-  loneliness:{},
-  normal:{},
-  shame:{},
-  shame1:{},shy:{},
-  surprice:{},talk:{},
-  temptation:{},//诱惑
-  worry:{}
+  hurry:{
+    value:["face_hurry_back_japan",
+"face_hurry_back_normal",
+"face_hurry_back_vampire",
+"face_hurry_front"]
+  },
+  loneliness:{
+    value:["face_loneliness_back_japan",
+"face_loneliness_back_normal",
+"face_loneliness_back_vampire",
+"face_loneliness_front"]
+  },
+  normal:{
+    value:["face_normal_back_japan",
+"face_normal_back_normal",
+"face_normal_back_vampire",
+"face_normal_front"]
+  },
+  shame:{
+    value:["face_shame1_back_japan",
+"face_shame1_back_normal",
+"face_shame1_back_vampire",
+"face_shame1_front"]
+  },
+  shame1:{
+    value:["face_shame2_back_japan",
+"face_shame2_back_normal",
+"face_shame2_back_vampire",
+"face_shame2_front"]
+  },shy:{
+
+    value:[
+"face_shy_back_japan",
+"face_shy_back_normal",
+"face_shy_back_vampire",
+"face_shy_front"]
+  },
+  surprice:{
+    value:["face_surprise_back_japan",
+"face_surprise_back_normal",
+"face_surprise_back_vampire",
+"face_surprise_front"]
+  },talk:{
+    value:["face_talk_back_japan",
+"face_talk_back_normal",
+"face_talk_back_vampire",
+"face_talk_front"]
+  },
+  temptation:{
+    value:["face_temptation_back_japan",
+"face_temptation_back_normal",
+"face_temptation_back_vampire",
+"face_temptation_front"]
+  },//诱惑
+  worry:{
+    value:[
+"face_worry_back_japan",
+"face_worry_back_normal",
+"face_worry_back_vampire",
+"face_worry_front"]
+  }
 }
 
 
@@ -295,6 +317,24 @@ export default {
       return require(`./../assets/doll1/${name}.png`);
     },
     moodChange(type){
+
+      let mood=moodType[type]
+      if(mood!=undefined){
+         console.log(mood)
+        if(mood.value.length>=4){
+         this.body.face_f=mood.value[3]
+          this.body.face_b=mood.value[this.moods.eyetype]
+          
+        }else{
+           this.body.face_f=mood.value[1]
+          this.body.face_b=mood.value[0]
+         
+        }
+       
+      }
+      else{
+        console.log("没有对应的情绪")
+      }
       
     }
   },
@@ -311,7 +351,14 @@ export default {
 
     //每次打开 报下时间和万年历
     //如果设置随机刷新套装就刷新套装
+//       setInterval(()=>{
+//           let arr=["temptation","happy","shy","cry1"]
+          
+// var index = Math.floor((Math.random()*arr.length)); 
+//  console.log(arr[index])
+//            this.moodChange(arr[index])
 
+//       },1000)
   }
 };
 </script>
