@@ -5,7 +5,7 @@
     <Button shape="circle" icon="md-hand"  style="-webkit-app-region: drag;"></Button>
     <Button shape="circle" icon="md-settings" @click="toggle(!show)"></Button>
     <Button shape="circle" icon="ios-arrow-round-down" @click="save"></Button>
-    
+    <Button shape="circle" icon="ios-happy" @click="save"></Button>
     </div>
     <li class="doll"
       :style="{zIndex:1000-i}"
@@ -292,6 +292,7 @@ export default {
   methods: {
     save(){
         localStorage.setItem("body",JSON.stringify(this.body))
+        localStorage.setItem("checked",JSON.stringify(this.checked))
       console.log(JSON.stringify(this.body))//制作模版用
     },
       toggle(show){
@@ -346,9 +347,12 @@ export default {
       //如果缓存里有数据 就直接读取上次缓存的数据
     if(localStorage.getItem("body")!=null){
         this.body=JSON.parse(localStorage.getItem("body"))
+        
     }
     //缓存开关设置
-
+     if(localStorage.getItem("checked")!=null){
+this.checked=JSON.parse(localStorage.getItem("checked"))
+     }
     //每次打开 报下时间和万年历
     //如果设置随机刷新套装就刷新套装
 //       setInterval(()=>{
