@@ -65,12 +65,120 @@ let tmps=[{
   json:{"cat":"acce_neck","hair_f":"hair_semi_front_main_normal","face_f":"face_cold_front","face_b":"face_normal_back_japan","hair_s":"hair_queen_front_shadow","outside_f":"outer_muffler_red_front","top":"tops_tanktop_white","bottom":"bottoms_tight_black","under":"under_rope","body":"nude","outside_b":"outer_muffler_red_back","hair_b":"hair_semi_back_main_normal"}
 }]
 
-
+let eystype={
+  0:"jspan",
+  1:"normal",
+  2:"vampire"
+}
+let f=[ 
+"face_batsu2_back",
+"face_batsu2_front",
+"face_cold_back_japan",
+"face_cold_back_normal",
+"face_cold_back_vampire",
+"face_cold_front",
+"face_cry2_back",
+"face_cry2_front",
+"face_cry_back",
+"face_cry_front",
+"face_fsmile2_back_japan",
+"face_fsmile2_back_normal",
+"face_fsmile2_back_vampire",
+"face_fsmile2_front",
+"face_fsmile_back_japan",
+"face_fsmile_back_normal",
+"face_fsmile_back_vampire",
+"face_fsmile_front",
+"face_hurry_back_japan",
+"face_hurry_back_normal",
+"face_hurry_back_vampire",
+"face_hurry_front",
+"face_loneliness_back_japan",
+"face_loneliness_back_normal",
+"face_loneliness_back_vampire",
+"face_loneliness_front",
+"face_normal_back_japan",
+"face_normal_back_normal",
+"face_normal_back_vampire",
+"face_normal_front",
+"face_shame1_back_japan",
+"face_shame1_back_normal",
+"face_shame1_back_vampire",
+"face_shame1_front",
+"face_shame2_back_japan",
+"face_shame2_back_normal",
+"face_shame2_back_vampire",
+"face_shame2_front",
+"face_shy_back_japan",
+"face_shy_back_normal",
+"face_shy_back_vampire",
+"face_shy_front",
+"face_smile_back",
+"face_smile_back_japan",
+"face_smile_back_normal",
+"face_smile_back_vampire",
+"face_smile_front",
+"face_surprise_back_japan",
+"face_surprise_back_normal",
+"face_surprise_back_vampire",
+"face_surprise_front",
+"face_talk_back_japan",
+"face_talk_back_normal",
+"face_talk_back_vampire",
+"face_talk_front",
+"face_temptation_back_japan",
+"face_temptation_back_normal",
+"face_temptation_back_vampire",
+"face_temptation_front",
+"face_worry_back_japan",
+"face_worry_back_normal",
+"face_worry_back_vampire",
+"face_worry_front",
+"face_wsmile_back",
+"face_wsmile_back_japan",
+"face_wsmile_back_normal",
+"face_wsmile_back_vampire",
+"face_wsmile_front"]
 //anime,b和f要有关联
+let moodType={
+  happy:[],
+  happy2:{
+
+  },
+  veryhappy:{
+
+  },
+  batsu:{
+    name:"挣扎",
+    range:[-1,-1],
+   value: ["face_batsu1_back",
+"face_batsu1_front"]
+},
+  cry1:{
+
+  },
+  cry2:{
+
+  },
+  hurry:{},
+  loneliness:{},
+  normal:{},
+  shame:{},
+  shame1:{},shy:{},
+  surprice:{},talk:{},
+  temptation:{},//诱惑
+  worry:{}
+}
+
+
+
+
+
+
 
 export default {
   mounted() {},
-  name: "HelloWorld",
+  name: "doll",
 
   data() {
     return {
@@ -93,14 +201,10 @@ export default {
         },
       ],
       moods:{
-        happy:{
-          face_f: "face_shy_front",
-          face_b: "face_shy_back_japan",
-        },
-        sad:{
-           face_f: "face_shy_front",
-          face_b: "face_shy_back_japan",
-        }
+        eyetype:0,
+        excited:0,
+        happy:0,
+        impression:0
       },
       checked: [
         "cat",
@@ -190,6 +294,9 @@ export default {
     getImg(name) {
       return require(`./../assets/doll1/${name}.png`);
     },
+    moodChange(type){
+      
+    }
   },
   props: {
     msg: String,
@@ -200,6 +307,8 @@ export default {
     if(localStorage.getItem("body")!=null){
         this.body=JSON.parse(localStorage.getItem("body"))
     }
+    //缓存开关设置
+
     //每次打开 报下时间和万年历
     //如果设置随机刷新套装就刷新套装
 
@@ -237,6 +346,7 @@ export default {
   position: absolute;
   left: 208px;
   width: 600px;
+  background: #fff;
 }
 .hello {
      /* position: relative; */
