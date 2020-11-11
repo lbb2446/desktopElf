@@ -363,6 +363,9 @@ this.checked=JSON.parse(localStorage.getItem("checked"))
 //            this.moodChange(arr[index])
 
 //       },1000)
+
+
+//powerMonitor.getSystemIdleState() 使用监听API 来控制 芙蓉好感度
   }
 };
 </script>
