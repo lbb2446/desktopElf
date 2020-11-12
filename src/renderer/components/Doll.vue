@@ -5,7 +5,7 @@
     <Button shape="circle" icon="md-hand"  style="-webkit-app-region: drag;"></Button>
     <Button shape="circle" icon="md-settings" @click="toggle(!show)"></Button>
     <Button shape="circle" icon="ios-arrow-round-down" @click="save"></Button>
-    <Button shape="circle" icon="ios-happy" @click="save"></Button>
+    <Button shape="circle" icon="ios-happy" @click="randomChange"></Button>
     </div>
     <li class="doll"
       :style="{zIndex:1000-i}"
@@ -337,6 +337,13 @@ export default {
         console.log("没有对应的情绪")
       }
       
+    },
+    randomChange(){
+          let arr=Object.keys(moodType)
+          
+var index = Math.floor((Math.random()*arr.length)); 
+ console.log(arr[index])
+           this.moodChange(arr[index])
     }
   },
   props: {
