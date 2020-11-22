@@ -1,12 +1,20 @@
 <template>
   <div class="hello"
-    id="wrapper" >
-      <div style="position:fixed;z-index:99999">
-    <Button shape="circle" icon="md-hand"  style="-webkit-app-region: drag;"></Button>
-    <Button shape="circle" icon="md-settings" @click="toggle(!show)"></Button>
-    <Button shape="circle" icon="ios-arrow-round-down" @click="save"></Button>
-    <Button shape="circle" icon="ios-happy" @click="randomChange"></Button>
-    好感：{{happy}} 心情 {{excited}}
+    id="wrapper">
+    <div style="position:fixed;z-index:99999">
+      <Button shape="circle"
+        icon="md-hand"
+        style="-webkit-app-region: drag;"></Button>
+      <Button shape="circle"
+        icon="md-settings"
+        @click="toggle(!show)"></Button>
+      <Button shape="circle"
+        icon="ios-arrow-round-down"
+        @click="save"></Button>
+      <Button shape="circle"
+        icon="ios-happy"
+        @click="randomChange"></Button>
+      好感：{{happy}} 心情 {{excited}}
     </div>
     <li class="doll"
       :style="{zIndex:1000-i}"
@@ -17,7 +25,7 @@
         :src="getImg(v)"
         :alt="i">
     </li>
-    <List  v-if="show"
+    <List v-if="show"
       class="tool"
       border>
       <CheckboxGroup v-model="checked">
@@ -25,8 +33,8 @@
         <ListItem v-for="(v,k) in config"
           :key="k">
           <Checkbox :label="k"></Checkbox>
-          <Select style="width:200px" v-model="body[k]"
-            >
+          <Select style="width:200px"
+            v-model="body[k]">
             <Option v-for="item in v"
               :value="item.value"
               :key="item.value">{{ item.label }}</Option>
@@ -35,14 +43,14 @@
       </CheckboxGroup>
 
     </List>
-    
+
     <!-- <div class="anime1"></div> -->
 
   </div>
 </template>
 
 <script>
-import { mapState ,mapActions  } from 'vuex'
+import { mapState, mapActions } from "vuex";
 import {
   face_b,
   face_f,
@@ -54,159 +62,198 @@ import {
   hair_b,
   hair_s,
   top,
-  under,
+  under
 } from "./doll.js";
 
 function seletedDecoration(arr) {
-  return arr.map((t) => {
+  return arr.map(t => {
     return { value: t, label: t };
   });
 }
-let tmps=[{
-  name:"A",
-  json:{"cat":"acce_neck","hair_f":"hair_semi_front_main_normal","face_f":"face_cold_front","face_b":"face_normal_back_japan","hair_s":"hair_queen_front_shadow","outside_f":"outer_muffler_red_front","top":"tops_tanktop_white","bottom":"bottoms_tight_black","under":"under_rope","body":"nude","outside_b":"outer_muffler_red_back","hair_b":"hair_semi_back_main_normal"}
-}]
+let tmps = [
+  {
+    name: "A",
+    json: {
+      cat: "acce_neck",
+      hair_f: "hair_semi_front_main_normal",
+      face_f: "face_cold_front",
+      face_b: "face_normal_back_japan",
+      hair_s: "hair_queen_front_shadow",
+      outside_f: "outer_muffler_red_front",
+      top: "tops_tanktop_white",
+      bottom: "bottoms_tight_black",
+      under: "under_rope",
+      body: "nude",
+      outside_b: "outer_muffler_red_back",
+      hair_b: "hair_semi_back_main_normal"
+    }
+  }
+];
 
-let eystype={
-  0:"jspan",
-  1:"normal",
-  2:"vampire"
-}
+let eystype = {
+  0: "jspan",
+  1: "normal",
+  2: "vampire"
+};
 
 //anime,b和f要有关联
-var moodType={
-  cold:{
-    name:"有点冷",
-    coordinate:[0,-0.1],
-    value:["face_cold_back_japan",
-"face_cold_back_normal",
-"face_cold_back_vampire",
-"face_cold_front"]
+var moodType = {
+  cold: {
+    name: "有点冷",
+    coordinate: [0, -0.1],
+    value: [
+      "face_cold_back_japan",
+      "face_cold_back_normal",
+      "face_cold_back_vampire",
+      "face_cold_front"
+    ]
   },
-  happy:{
-    name:"开心",
-    coordinate:[0.3,0],
-   value:["face_fsmile2_back_japan",
-"face_fsmile2_back_normal",
-"face_fsmile2_back_vampire",
-"face_fsmile2_front"]
-},
-  happy2:{
-    coordinate:[0.5,0.1],
-    value:["face_fsmile_back_japan",
-"face_fsmile_back_normal",
-"face_fsmile_back_vampire",
-"face_fsmile_front"]
+  happy: {
+    name: "开心",
+    coordinate: [0.3, 0],
+    value: [
+      "face_fsmile2_back_japan",
+      "face_fsmile2_back_normal",
+      "face_fsmile2_back_vampire",
+      "face_fsmile2_front"
+    ]
   },
-  veryhappy:{
-    coordinate:[0.6,0.2],
-    value:["face_smile_back",
-"face_smile_back_japan",
-"face_smile_back_normal",
-"face_smile_back_vampire",
-"face_smile_front"]
+  happy2: {
+    coordinate: [0.5, 0.1],
+    value: [
+      "face_fsmile_back_japan",
+      "face_fsmile_back_normal",
+      "face_fsmile_back_vampire",
+      "face_fsmile_front"
+    ]
   },
-   veryhappy1:{
-     coordinate:[0.8,0.3],
-    value:["face_wsmile_back",
-"face_wsmile_back_japan",
-"face_wsmile_back_normal",
-"face_wsmile_back_vampire",
-"face_wsmile_front"]
+  veryhappy: {
+    coordinate: [0.6, 0.2],
+    value: [
+      "face_smile_back_japan",
+      "face_smile_back_normal",
+      "face_smile_back_vampire",
+      "face_smile_front"
+    ]
   },
-  batsu:{
-    name:"挣扎",
-    coordinate:[-0.5,-0.5],
-   value: ["face_batsu1_back",
-"face_batsu1_front"]
-},
-batsu1:{
-   name:"挣扎2",
-  coordinate:[-0.75,-0.75],
-  value:["face_batsu2_back",
-"face_batsu2_front"]
-},
-  cry1:{
-    coordinate:[-0.5,0],
-value:["face_cry_back",
-"face_cry_front"]
+  veryhappy1: {
+    coordinate: [0.8, 0.3],
+    value: [
+      "face_wsmile_back_japan",
+      "face_wsmile_back_normal",
+      "face_wsmile_back_vampire",
+      "face_wsmile_front"
+    ]
   },
-  cry2:{
-     coordinate:[-0.7,0],
-value:["face_cry2_back",
-"face_cry2_front"]
+  batsu: {
+    name: "挣扎",
+    coordinate: [-0.5, -0.5],
+    value: ["face_batsu1_back", "face_batsu1_front"]
   },
-  hurry:{
-     coordinate:[0,-0.2],
-    value:["face_hurry_back_japan",
-"face_hurry_back_normal",
-"face_hurry_back_vampire",
-"face_hurry_front"]
+  batsu1: {
+    name: "挣扎2",
+    coordinate: [-0.75, -0.75],
+    value: ["face_batsu2_back", "face_batsu2_front"]
   },
-  loneliness:{
-    coordinate:[-0.8,-0.8],
-    value:["face_loneliness_back_japan",
-"face_loneliness_back_normal",
-"face_loneliness_back_vampire",
-"face_loneliness_front"]
+  cry1: {
+    coordinate: [-0.5, 0],
+    value: ["face_cry_back", "face_cry_front"]
   },
-  normal:{
-     coordinate:[0,0],
-    value:["face_normal_back_japan",
-"face_normal_back_normal",
-"face_normal_back_vampire",
-"face_normal_front"]
+  cry2: {
+    coordinate: [-0.7, 0],
+    value: ["face_cry2_back", "face_cry2_front"]
   },
-  shame:{
-    coordinate:[0,0.3],
-    value:["face_shame1_back_japan",
-"face_shame1_back_normal",
-"face_shame1_back_vampire",
-"face_shame1_front"]
+  hurry: {
+    coordinate: [0, -0.2],
+    value: [
+      "face_hurry_back_japan",
+      "face_hurry_back_normal",
+      "face_hurry_back_vampire",
+      "face_hurry_front"
+    ]
   },
-  shame1:{
-    coordinate:[0,0.5],
-    value:["face_shame2_back_japan",
-"face_shame2_back_normal",
-"face_shame2_back_vampire",
-"face_shame2_front"]
-  },shy:{
-coordinate:[0,0.1],
-    value:[
-"face_shy_back_japan",
-"face_shy_back_normal",
-"face_shy_back_vampire",
-"face_shy_front"]
+  loneliness: {
+    coordinate: [-0.8, -0.8],
+    value: [
+      "face_loneliness_back_japan",
+      "face_loneliness_back_normal",
+      "face_loneliness_back_vampire",
+      "face_loneliness_front"
+    ]
   },
-  surprice:{
-    coordinate:[0.2,0.2],
-    value:["face_surprise_back_japan",
-"face_surprise_back_normal",
-"face_surprise_back_vampire",
-"face_surprise_front"]
-  },talk:{
-    coordinate:[0.1,0.1],
-    value:["face_talk_back_japan",
-"face_talk_back_normal",
-"face_talk_back_vampire",
-"face_talk_front"]
+  normal: {
+    coordinate: [0, 0],
+    value: [
+      "face_normal_back_japan",
+      "face_normal_back_normal",
+      "face_normal_back_vampire",
+      "face_normal_front"
+    ]
   },
-  temptation:{
-    coordinate:[0.1,0.5],
-    value:["face_temptation_back_japan",
-"face_temptation_back_normal",
-"face_temptation_back_vampire",
-"face_temptation_front"]
-  },//诱惑
-  worry:{
-    coordinate:[-0.1,-0.5],
-    value:[
-"face_worry_back_japan",
-"face_worry_back_normal",
-"face_worry_back_vampire",
-"face_worry_front"]
+  shame: {
+    coordinate: [0, 0.3],
+    value: [
+      "face_shame1_back_japan",
+      "face_shame1_back_normal",
+      "face_shame1_back_vampire",
+      "face_shame1_front"
+    ]
+  },
+  shame1: {
+    coordinate: [0, 0.5],
+    value: [
+      "face_shame2_back_japan",
+      "face_shame2_back_normal",
+      "face_shame2_back_vampire",
+      "face_shame2_front"
+    ]
+  },
+  shy: {
+    coordinate: [0, 0.1],
+    value: [
+      "face_shy_back_japan",
+      "face_shy_back_normal",
+      "face_shy_back_vampire",
+      "face_shy_front"
+    ]
+  },
+  surprice: {
+    coordinate: [0.2, 0.2],
+    value: [
+      "face_surprise_back_japan",
+      "face_surprise_back_normal",
+      "face_surprise_back_vampire",
+      "face_surprise_front"
+    ]
+  },
+  talk: {
+    coordinate: [0.1, 0.1],
+    value: [
+      "face_talk_back_japan",
+      "face_talk_back_normal",
+      "face_talk_back_vampire",
+      "face_talk_front"
+    ]
+  },
+  temptation: {
+    coordinate: [0.1, 0.5],
+    value: [
+      "face_temptation_back_japan",
+      "face_temptation_back_normal",
+      "face_temptation_back_vampire",
+      "face_temptation_front"
+    ]
+  }, //诱惑
+  worry: {
+    coordinate: [-0.1, -0.5],
+    value: [
+      "face_worry_back_japan",
+      "face_worry_back_normal",
+      "face_worry_back_vampire",
+      "face_worry_front"
+    ]
   }
-}
+};
 
 /**
  * 两点之间求最短距离
@@ -215,44 +262,39 @@ coordinate:[0,0.1],
  * @param {any} p2
  * @returns {any}
  */
-function twoPointDistance(p1,p2){
-    let dep = Math.sqrt(Math.pow((p1[0] - p2[0]), 2) + Math.pow((p1[1] - p2[1]), 2));
-    return dep;
+function twoPointDistance(p1, p2) {
+  let dep = Math.sqrt(Math.pow(p1[0] - p2[0], 2) + Math.pow(p1[1] - p2[1], 2));
+  return dep;
 }
 
 //搜索最近的情绪表情
 
-function findMood(happy,excited){
-  let coord =[happy,excited]
-  let arr=Object.keys(moodType)
+function findMood(happy, excited) {
+  let coord = [happy, excited];
+  let arr = Object.keys(moodType);
 
-  let {keys, values, entries} = Object;  
-  let minKey=""
-  let minNum=100
-  for (let [key, value] of entries(moodType)) {  
-    let dis= twoPointDistance(coord,value.coordinate)
-    if(dis<minNum){
-      minKey=key
-      minNum=dis
+  let { keys, values, entries } = Object;
+  let minKey = "";
+  let minNum = 100;
+  for (let [key, value] of entries(moodType)) {
+    let dis = twoPointDistance(coord, value.coordinate);
+    if (dis < minNum) {
+      minKey = key;
+      minNum = dis;
     }
-  //   console.log([key, value]); // ['a', 1], ['b', 2], ['c', 3] 
+    //   console.log([key, value]); // ['a', 1], ['b', 2], ['c', 3]
   }
-  console.log(minKey)
-  return minKey
+  console.log(minKey);
+  return minKey;
 }
 // findMood(1,1)
-
-
-
-
-
 
 export default {
   name: "lotus",
 
   data() {
     return {
-        show:false,
+      show: false,
       theme: [
         {
           name: "基础",
@@ -267,14 +309,14 @@ export default {
           under: "under_rope",
           body: "nude",
           outside_b: "outer_muton_back",
-          hair_b: "hair_semi_back_main_vampire",
-        },
+          hair_b: "hair_semi_back_main_vampire"
+        }
       ],
-      moods:{
-        eyetype:0,
-        excited:0,
-        happy:0,
-        impression:0
+      moods: {
+        eyetype: 0,
+        excited: 0,
+        happy: 0,
+        impression: 0
       },
       checked: [
         "cat",
@@ -288,7 +330,7 @@ export default {
         "body",
         "outside_b",
         "hair_b",
-        "hair_s",
+        "hair_s"
       ],
       body: {
         cat: "acce_glass_red",
@@ -303,7 +345,7 @@ export default {
         under: "under_rope",
         body: "nude",
         outside_b: "outer_muton_back",
-        hair_b: "hair_semi_back_main_vampire",
+        hair_b: "hair_semi_back_main_vampire"
       },
       config: {
         hair_f: seletedDecoration(hair_f),
@@ -316,13 +358,13 @@ export default {
         outside_f: seletedDecoration(outer_f),
         outside_b: seletedDecoration(outer_b),
         top: seletedDecoration(top),
-        under: seletedDecoration(under),
-      },
+        under: seletedDecoration(under)
+      }
     };
   },
   watch: {
-    checked(){
-   this.$store.dispatch("smallhappy")
+    checked() {
+      this.$store.dispatch("smallhappy");
     },
     "body.face_f"(value) {
       if (face_b.includes(value.replace("front", "back"))) {
@@ -338,117 +380,104 @@ export default {
       if (outer_b.includes(value.replace("front", "back"))) {
         this.body.outside_b = value.replace("front", "back");
       }
-    },
+    }
   },
   methods: {
-    save(){
-      this.$store.dispatch("smallhappy")
-        localStorage.setItem("body",JSON.stringify(this.body))
-        localStorage.setItem("checked",JSON.stringify(this.checked))
-      console.log(JSON.stringify(this.body))//制作模版用
+    save() {
+      this.$store.dispatch("smallhappy");
+      this.$store.dispatch("smallexcited");
+      localStorage.setItem("body", JSON.stringify(this.body));
+      localStorage.setItem("checked", JSON.stringify(this.checked));
+      console.log(JSON.stringify(this.body)); //制作模版用
     },
-      toggle(show){
-        this.$store.dispatch("smallhappy")
-         this.show=!this.show
+    toggle(show) {
+      this.$store.dispatch("smallhappy");
+      this.show = !this.show;
 
-         if(this.show){
-              this.$electron.ipcRenderer.send('changesize',{
-                width:604,
-                height:1000
-              })
-              
-          }else{
-                this.$electron.ipcRenderer.send('changesize',{
-                width:204,
-                height:426
-              })
-          }
-        
-       
-      },
+      if (this.show) {
+        this.$electron.ipcRenderer.send("changesize", {
+          width: 604,
+          height: 1000
+        });
+      } else {
+        this.$electron.ipcRenderer.send("changesize", {
+          width: 204,
+          height: 426
+        });
+      }
+    },
     getImg(name) {
-    
       return require(`./../assets/doll1/${name}.png`);
     },
-    moodChange(type){
-
-      let mood=moodType[type]
-      if(mood!=undefined){
-         console.log(mood)
-        if(mood.value.length>=4){
-         this.body.face_f=mood.value[3]
-          this.body.face_b=mood.value[this.moods.eyetype]
-          
-        }else{
-           this.body.face_f=mood.value[1]
-          this.body.face_b=mood.value[0]
-         
+    moodChange(type) {
+      let mood = moodType[type];
+      if (mood != undefined) {
+        console.log(mood);
+        if (mood.value.length >= 4) {
+          this.body.face_f = mood.value[3];
+          this.body.face_b = mood.value[this.moods.eyetype];
+        } else {
+          this.body.face_f = mood.value[1];
+          this.body.face_b = mood.value[0];
         }
-       
+      } else {
+        console.log("没有对应的情绪");
       }
-      else{
-        console.log("没有对应的情绪")
-      }
-      
     },
-    randomChange(){
-          let arr=Object.keys(moodType)
-          
-var index = Math.floor((Math.random()*arr.length)); 
- console.log(arr[index])
-           this.moodChange(arr[index])
+    randomChange() {
+      let arr = Object.keys(moodType);
+      this.$store.dispatch("smallexcited");
+      var index = Math.floor(Math.random() * arr.length);
+      console.log(arr[index]);
+      this.moodChange(arr[index]);
     }
   },
   props: {
-    msg: String,
+    msg: String
   },
-  computed:{
-    
+  computed: {
     ...mapState({
-       happy (state) {
+      happy(state) {
         //  console.log("变化拉")
-        this.moodChange(findMood(state.Counter.happy,state.Counter.excited))
-      return  state.Counter.happy.toFixed(2)
-    },
-     excited (state) {
-          this.moodChange(findMood(state.Counter.happy,state.Counter.excited))
-      return state.Counter.excited.toFixed(2)
-    }
+        this.moodChange(findMood(state.Counter.happy, state.Counter.excited));
+        return state.Counter.happy.toFixed(2);
+      },
+      excited(state) {
+        this.moodChange(findMood(state.Counter.happy, state.Counter.excited));
+        return state.Counter.excited.toFixed(2);
+      }
     })
   },
-  mounted(){
-
-      //如果缓存里有数据 就直接读取上次缓存的数据
-    if(localStorage.getItem("body")!=null){
-        this.body=JSON.parse(localStorage.getItem("body"))
-        
+  mounted() {
+    //如果缓存里有数据 就直接读取上次缓存的数据
+    if (localStorage.getItem("body") != null) {
+      this.body = JSON.parse(localStorage.getItem("body"));
     }
     //缓存开关设置
-     if(localStorage.getItem("checked")!=null){
-this.checked=JSON.parse(localStorage.getItem("checked"))
-     }
-    setInterval(()=>{
-        //  console.log(this.$store)
-       // this.$store.dispatch("smallhappy")
+    if (localStorage.getItem("checked") != null) {
+      this.checked = JSON.parse(localStorage.getItem("checked"));
+    }
+    setInterval(() => {
+      //  console.log(this.$store)
+      // this.$store.dispatch("smallhappy")
       //  this.$store.dispatch("bigunhappy")
-      this.$store.dispatch("smallunhappy")
-      this.$store.dispatch("smallunexcited")
-       this.smallexcited()
-    },600000)
-     
+      this.$store.dispatch("smallunhappy");
+      this.$store.dispatch("smallunexcited");
+      // this.smallexcited();
+    }, 600000);
+
     //每次打开 报下时间和万年历
     //如果设置随机刷新套装就刷新套装
-//       setInterval(()=>{
-//           let arr=["temptation","happy","shy","cry1"]
-          
-// var index = Math.floor((Math.random()*arr.length)); 
-//  console.log(arr[index])
-//            this.moodChange(arr[index])
+    //       setInterval(()=>{
+    //           let arr=["temptation","happy","shy","cry1"]
 
-//       },1000)
+    // var index = Math.floor((Math.random()*arr.length));
+    //  console.log(arr[index])
+    //            this.moodChange(arr[index])
 
+    //       },1000)
 
-//powerMonitor.getSystemIdleState() 使用监听API 来控制 芙蓉好感度
+    //powerMonitor.getSystemIdleState() 使用监听API 来控制 芙蓉好感度
   }
 };
 </script>
@@ -477,7 +506,6 @@ this.checked=JSON.parse(localStorage.getItem("checked"))
   height: 416px;
   left: 0;
   top: 10;
-  
 }
 .tool {
   position: absolute;
@@ -486,12 +514,12 @@ this.checked=JSON.parse(localStorage.getItem("checked"))
   background: #fff;
 }
 .hello {
-     /* position: relative; */
-    overflow: hidden;
-    background: none;
-    /* height: 426px; */
+  /* position: relative; */
+  overflow: hidden;
+  background: none;
+  /* height: 426px; */
 }
-body{
-    background: none;
+body {
+  background: none;
 }
 </style>
