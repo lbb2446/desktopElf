@@ -438,7 +438,6 @@ export default {
   computed: {
     ...mapState({
       happy(state) {
-        //  console.log("变化拉")
         this.moodChange(findMood(state.Counter.happy, state.Counter.excited));
         return state.Counter.happy.toFixed(2);
       },
@@ -462,7 +461,7 @@ export default {
       // this.$store.dispatch("smallhappy")
       //  this.$store.dispatch("bigunhappy")
       this.$store.dispatch("smallunhappy");
-      this.$store.dispatch("smallunexcited");
+      this.$store.dispatch("bigunexcited");
       // this.smallexcited();
     }, 600000);
 
