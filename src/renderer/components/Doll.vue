@@ -16,6 +16,7 @@
         @click="randomChange"></Button>
       好感：{{happy}} 心情 {{excited}}
     </div>
+    <mood></mood>
     <li class="doll"
       :style="{zIndex:1000-i}"
       v-for="(v,k,i) in body"
@@ -33,7 +34,7 @@
         <ListItem v-for="(v,k) in config"
           :key="k">
           <Checkbox :label="k"></Checkbox>
-          <Select style="width:200px"
+          <Select @on-click="clothChange" style="width:200px"
             v-model="body[k]">
             <Option v-for="item in v"
               :value="item.value"
@@ -51,6 +52,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import mood from './mood.vue';
 import {} from './utils.js';
 import {
   face_b,
@@ -292,7 +294,9 @@ function findMood(happy, excited) {
 
 export default {
   name: "lotus",
-
+components:{
+  mood
+},
   data() {
     return {
       show: false,
@@ -384,6 +388,10 @@ export default {
     }
   },
   methods: {
+    clothChange(){
+      console.log("换装")
+      this.$store.dispatch("smallexcited");
+    },
     save() {
       this.$store.dispatch("smallhappy");
       this.$store.dispatch("smallexcited");
