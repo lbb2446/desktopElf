@@ -1,6 +1,24 @@
 <template>
   <div class="hello"
     id="wrapper">
+       <!-- <Modal
+        v-model="modal1"
+        title="保存当前的服饰与表情到缓存中"
+        @on-ok="mutations.add({a:1})"
+        @on-cancel="cancel">
+        <p>套装名称：</p> <Input v-model="value" placeholder="Enter something..." style="width: 300px" />
+        <p>心情节点</p> <InputNumber
+            :max="100"
+            v-model="value10"
+            :formatter="value => `${value}%`"
+            :parser="value => value.replace('%', '')"></InputNumber>
+        <p>情绪节点：</p><InputNumber
+            :max="100"
+            v-model="value10"
+            :formatter="value => `${value}%`"
+            :parser="value => value.replace('%', '')"></InputNumber>
+
+    </Modal> -->
     <div style="position:fixed;z-index:99999">
       <Button shape="circle"
         icon="md-hand"
@@ -11,10 +29,13 @@
       <Button shape="circle"
         icon="ios-arrow-round-down"
         @click="save"></Button>
+         <Button shape="circle"
+        icon="ios-arrow-round-up"
+        @click="save1"></Button>
       <Button shape="circle"
         icon="ios-happy"
         @click="randomChange"></Button>
-      好感：{{happy}} 心情 {{excited}}
+      好感：{{happy}} 心情 {{excited}}  {{list}}
     </div>
     <mood></mood>
     <li class="doll"
@@ -34,7 +55,7 @@
         <ListItem v-for="(v,k) in config"
           :key="k">
           <Checkbox :label="k"></Checkbox>
-          <Select @on-click="clothChange" style="width:200px"
+          <Select @on-change="clothChange" style="width:200px"
             v-model="body[k]">
             <Option v-for="item in v"
               :value="item.value"
@@ -52,6 +73,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import {store,mutations} from './ministore'
 import mood from './mood.vue';
 import {} from './utils.js';
 import {
@@ -299,6 +321,7 @@ components:{
 },
   data() {
     return {
+      modal1:false,
       show: false,
       theme: [
         {
@@ -388,9 +411,30 @@ components:{
     }
   },
   methods: {
+    save1(){
+      mutations.add({a:1})
+    },
     clothChange(){
       console.log("换装")
       this.$store.dispatch("smallexcited");
+    },
+    saveInTmp(){
+      this.theme.push({
+          name: "基础",
+          cat: "acce_glass_red",
+          hair_f: "hair_normal_front_main_normal",
+          face_f: "face_shy_front",
+          face_b: "face_shy_back_japan",
+          hair_s: "hair_normal_front_shadow",
+          outside_f: "outer_muton_front",
+          top: "tops_neck_no_white",
+          bottom: "bottoms_tight_black",
+          under: "under_rope",
+          body: "nude",
+          outside_b: "outer_muton_back",
+          hair_b: "hair_semi_back_main_vampire"
+        })
+      
     },
     save() {
       this.$store.dispatch("smallhappy");
@@ -454,7 +498,10 @@ components:{
         this.moodChange(findMood(state.Counter.happy, state.Counter.excited));
         return state.Counter.excited.toFixed(2);
       }
-    })
+    }),
+    list(){
+      return store.tmps
+    }
   },
   mounted() {
     //如果缓存里有数据 就直接读取上次缓存的数据

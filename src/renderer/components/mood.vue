@@ -6,6 +6,7 @@
 
 <script>
 import { mapState, mapActions,mapGetters } from "vuex";
+import {store,mutations} from './ministore'
 //负责情绪调度以及语言模块
     export default {
         name: '',
@@ -15,7 +16,9 @@ import { mapState, mapActions,mapGetters } from "vuex";
             }
         },mounted(){
             //启动的时候默认
-
+            // setInterval(()=>{
+            //     mutations.add({b:1234})
+            // },1000)
         }
     }
 </script>
