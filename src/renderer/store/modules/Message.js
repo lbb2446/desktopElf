@@ -1,5 +1,5 @@
 var state = {
-  msg: 0,
+  msg: "",
   history: []
 }
 
@@ -9,7 +9,7 @@ const mutations = {
 
 const getters ={
   info: state => {
-    return state.todos.filter(todo => todo.done)
+    return state.msg
   },
   history(){
 

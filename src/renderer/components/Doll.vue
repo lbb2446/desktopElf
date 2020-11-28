@@ -513,7 +513,7 @@ components:{
   width: 208px;
   height: 416px;
   left: 0;
-  top: 10;
+  top: 40px;
 }
 .tool {
   position: absolute;

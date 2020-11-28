@@ -1,3 +1,5 @@
+//默认读取一下缓存
+
 const state = {
   happy: 0,
   excited:0
