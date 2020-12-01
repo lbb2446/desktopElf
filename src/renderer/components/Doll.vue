@@ -1,24 +1,24 @@
 <template>
   <div class="hello"
     id="wrapper">
-       <!-- <Modal
+       <Modal
         v-model="modal1"
         title="保存当前的服饰与表情到缓存中"
-        @on-ok="mutations.add({a:1})"
-        @on-cancel="cancel">
-        <p>套装名称：</p> <Input v-model="value" placeholder="Enter something..." style="width: 300px" />
+        @on-ok="save1"
+       >
+        <p>套装名称：</p> <Input v-model="addtmp.name" placeholder="Enter something..." style="width: 300px" />
         <p>心情节点</p> <InputNumber
             :max="100"
-            v-model="value10"
+            v-model="addtmp.happy"
             :formatter="value => `${value}%`"
-            :parser="value => value.replace('%', '')"></InputNumber>
+            :parser="value => value/100"></InputNumber>
         <p>情绪节点：</p><InputNumber
             :max="100"
-            v-model="value10"
+            v-model="addtmp.excited"
             :formatter="value => `${value}%`"
-            :parser="value => value.replace('%', '')"></InputNumber>
+            :parser="value => value/100"></InputNumber>
 
-    </Modal> -->
+    </Modal>
     <div style="position:fixed;z-index:99999">
       <Button shape="circle"
         icon="md-hand"
@@ -31,11 +31,11 @@
         @click="save"></Button>
          <Button shape="circle"
         icon="ios-arrow-round-up"
-        @click="save1"></Button>
+        @click="modal1=true"></Button>
       <Button shape="circle"
         icon="ios-happy"
         @click="randomChange"></Button>
-      好感：{{happy}} 心情 {{excited}}  {{list}}
+      好感：{{happy}} 心情 {{excited}}  
     </div>
     <mood></mood>
     <li class="doll"
@@ -48,7 +48,7 @@
         :alt="i">
     </li>
     <List v-if="show"
-      class="tool"
+      class="tool" 
       border>
       <CheckboxGroup v-model="checked">
 
@@ -321,6 +321,11 @@ components:{
 },
   data() {
     return {
+      addtmp:{
+        name:"",
+        excited:0,
+        happy:0
+      },
       modal1:false,
       show: false,
       theme: [
@@ -412,7 +417,10 @@ components:{
   },
   methods: {
     save1(){
-      mutations.add({a:1})
+      mutations.add({name:this.addtmp.name,
+      excited:this.addtmp.excited,
+      happy:this.addtmp.happy,
+      body:this.body})
     },
     clothChange(){
       console.log("换装")
@@ -557,6 +565,7 @@ components:{
 }
 .doll {
   position: fixed;
+  display:none;
   width: 208px;
   height: 416px;
   left: 0;
