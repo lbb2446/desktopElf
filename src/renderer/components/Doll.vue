@@ -19,6 +19,18 @@
             :parser="value => value/100"></InputNumber>
 
     </Modal>
+    <Modal
+        v-model="modal2"
+        title="缓存列表"
+      
+       >
+        <List>
+            <ListItem v-for="(t,i) in list" :key="i" >
+                <div @click="reshow(i)" >{{t.name}}</div>
+            </ListItem>
+        </List>
+
+    </Modal>
     <div style="position:fixed;z-index:99999">
       <Button shape="circle"
         icon="md-hand"
@@ -32,6 +44,9 @@
          <Button shape="circle"
         icon="ios-arrow-round-up"
         @click="modal1=true"></Button>
+        <Button shape="circle"
+        icon="md-list"
+        @click="modal2=true"></Button>
       <Button shape="circle"
         icon="ios-happy"
         @click="randomChange"></Button>
@@ -327,6 +342,7 @@ components:{
         happy:0
       },
       modal1:false,
+       modal2:false,
       show: false,
       theme: [
         {
@@ -416,6 +432,13 @@ components:{
     }
   },
   methods: {
+    reshow(i){
+      this.$store.dispatch("smallexcited");
+      console.log(store.tmps[i])
+      this.body= store.tmps[i].body
+
+      this.modal2=false
+    },
     save1(){
       mutations.add({name:this.addtmp.name,
       excited:this.addtmp.excited,
@@ -565,7 +588,6 @@ components:{
 }
 .doll {
   position: fixed;
-  display:none;
   width: 208px;
   height: 416px;
   left: 0;
