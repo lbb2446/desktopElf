@@ -6,7 +6,7 @@ const state = {
 }
 
 const mutations = {
-  HAPPY (state,type) {
+  HAPPY (state,{type}) {
     if(state.happy<=1){
       if(type=="s"){
         state.happy+=0.01
@@ -16,7 +16,7 @@ const mutations = {
       
     }
   },
-  UNHAPPY (state,type) {
+  UNHAPPY (state,{type}) {
     if(state.happy>=-1){
       if(type=="s"){
         state.happy-=0.01
@@ -25,7 +25,8 @@ const mutations = {
       }
     }
   },
-  EXCITED (state,type) {
+  EXCITED (state,{type}) {
+    console.log(type)
     if(state.excited<=1){
       if(type=="s"){
         state.excited+=0.01
@@ -35,7 +36,7 @@ const mutations = {
       
     }
   },
-  UNEXCITED (state,type) {
+  UNEXCITED (state,{type}) {
     if(state.excited>=-1){
       if(type=="s"){
         state.excited-=0.01
