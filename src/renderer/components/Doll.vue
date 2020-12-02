@@ -26,7 +26,7 @@
        >
         <List>
             <ListItem v-for="(t,i) in list" :key="i" >
-                <div @click="reshow(i)" >{{t.name}}</div>
+                <div @click="reshow(i)" >{{t.name}}</div> <div @click="deletecache(i)">删除</div>
             </ListItem>
         </List>
 
@@ -432,18 +432,25 @@ components:{
     }
   },
   methods: {
+    deletecache(i){
+        this.$delete(store.tmps,i)
+    },
     reshow(i){
       this.$store.dispatch("smallexcited");
       console.log(store.tmps[i])
       this.body= store.tmps[i].body
-
+      if(store.tmps[i].checked){
+     this.checked= store.tmps[i].checked
+      }
+ 
       this.modal2=false
     },
     save1(){
       mutations.add({name:this.addtmp.name,
       excited:this.addtmp.excited,
       happy:this.addtmp.happy,
-      body:this.body})
+      body:this.body,
+      checked:this.checked})
     },
     clothChange(){
       console.log("换装")
