@@ -1,15 +1,21 @@
 <template>
     <div class="info">
-        xixixixixixixixixiixixixixixixi
+        {{msg}}
     </div>
 </template>
 
 <script>
 import { mapState, mapActions,mapGetters } from "vuex";
-import {store,mutations} from './ministore'
+import {store,mutations} from './minimood'
 //负责情绪调度以及语言模块
     export default {
         name: '',
+        computed:{
+            msg(){
+                console.log(store)
+                return store.speak
+            }
+        },
         data() {
             return {
                 
