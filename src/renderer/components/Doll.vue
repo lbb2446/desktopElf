@@ -31,6 +31,18 @@
         </List>
 
     </Modal>
+     <Modal
+        v-model="modal3"
+        title="透明度调整"
+      
+       >
+       <p>outside_f</p>  <Slider v-model="opcity.outside_f"  ></Slider>
+       <p>bottom</p>  <Slider v-model="opcity.bottom"  ></Slider>
+       <p>outside_b</p>  <Slider v-model="opcity.outside_b"  ></Slider>
+       <p>top</p>  <Slider v-model="opcity.top"  ></Slider>
+       <p>under</p>  <Slider v-model="opcity.under"  ></Slider>
+
+    </Modal>
     <div style="position:fixed;z-index:99999">
       <Button shape="circle"
         icon="md-hand"
@@ -50,6 +62,9 @@
       <Button shape="circle"
         icon="ios-happy"
         @click="randomChange"></Button>
+        <Button shape="circle"
+        icon="md-body"
+        @click="modal3=true"></Button> 
       好感：{{happy}} 心情 {{excited}}  
     </div>
     <mood></mood>
@@ -59,7 +74,9 @@
       :key="v">
 
       <img v-if="checked.includes(k)"
-        :src="getImg(v)"
+        :src="getImg(v)" :style="{
+          opacity:getOpacity(k)
+        }"
         :alt="i">
     </li>
     <List v-if="show"
@@ -89,6 +106,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import {store,mutations} from './ministore'
+import {log} from './minimood'
 import mood from './mood.vue';
 import {} from './utils.js';
 import {
@@ -324,7 +342,6 @@ function findMood(happy, excited) {
     }
     //   console.log([key, value]); // ['a', 1], ['b', 2], ['c', 3]
   }
-  console.log(minKey);
   return minKey;
 }
 // findMood(1,1)
@@ -343,6 +360,7 @@ components:{
       },
       modal1:false,
        modal2:false,
+       modal3:false,
       show: false,
       theme: [
         {
@@ -396,6 +414,13 @@ components:{
         outside_b: "outer_muton_back",
         hair_b: "hair_semi_back_main_vampire"
       },
+      opcity:{
+        outside_f:100,
+        bottom:100,
+        outside_b:100,
+        top:100,
+        under:100
+      },
       config: {
         hair_f: seletedDecoration(hair_f),
         hair_b: seletedDecoration(hair_b),
@@ -432,12 +457,19 @@ components:{
     }
   },
   methods: {
+    getOpacity(i){
+      console.log(this.opcity[i])
+        if(this.opcity[i]!=0&&this.opcity[i]!=undefined){
+          return this.opcity[i]/100
+        }
+        return 1
+
+    },
     deletecache(i){
         this.$delete(store.tmps,i)
     },
     reshow(i){
       this.$store.dispatch("smallexcited");
-      console.log(store.tmps[i])
       this.body= store.tmps[i].body
       if(store.tmps[i].checked){
      this.checked= store.tmps[i].checked
@@ -453,7 +485,6 @@ components:{
       checked:this.checked})
     },
     clothChange(){
-      console.log("换装")
       this.$store.dispatch("smallexcited");
     },
     saveInTmp(){
@@ -479,7 +510,7 @@ components:{
       this.$store.dispatch("smallexcited");
       localStorage.setItem("body", JSON.stringify(this.body));
       localStorage.setItem("checked", JSON.stringify(this.checked));
-      console.log(JSON.stringify(this.body)); //制作模版用
+    
     },
     toggle(show) {
       this.$store.dispatch("smallhappy");
@@ -503,7 +534,6 @@ components:{
     moodChange(type) {
       let mood = moodType[type];
       if (mood != undefined) {
-        console.log(mood);
         if (mood.value.length >= 4) {
           this.body.face_f = mood.value[3];
           this.body.face_b = mood.value[this.moods.eyetype];
@@ -512,14 +542,13 @@ components:{
           this.body.face_b = mood.value[0];
         }
       } else {
-        console.log("没有对应的情绪");
+        log("没有对应的情绪");
       }
     },
     randomChange() {
       let arr = Object.keys(moodType);
       this.$store.dispatch("smallexcited");
       var index = Math.floor(Math.random() * arr.length);
-      console.log(arr[index]);
       this.moodChange(arr[index]);
     }
   },
@@ -542,6 +571,7 @@ components:{
     }
   },
   mounted() {
+    log("我是芙蓉~")
     //如果缓存里有数据 就直接读取上次缓存的数据
     if (localStorage.getItem("body") != null) {
       this.body = JSON.parse(localStorage.getItem("body"));
