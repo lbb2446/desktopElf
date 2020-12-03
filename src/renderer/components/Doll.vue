@@ -43,6 +43,9 @@
        <p>under</p>  <Slider v-model="opcity.under"  ></Slider>
 
     </Modal>
+    <div class="mood">
+      <heart :excited="excited" :happy="happy"></heart>
+    </div>
     <div style="position:fixed;z-index:99999">
       <Button shape="circle"
         icon="md-hand"
@@ -106,6 +109,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import {store,mutations} from './ministore'
+import heart from './Menu/heart.vue'
 import {log} from './minimood'
 import mood from './mood.vue';
 import {} from './utils.js';
@@ -349,7 +353,8 @@ function findMood(happy, excited) {
 export default {
   name: "lotus",
 components:{
-  mood
+  mood,
+  heart
 },
   data() {
     return {
@@ -581,12 +586,8 @@ components:{
       this.checked = JSON.parse(localStorage.getItem("checked"));
     }
     setInterval(() => {
-      //  console.log(this.$store)
-      // this.$store.dispatch("smallhappy")
-      //  this.$store.dispatch("bigunhappy")
       this.$store.dispatch("smallunhappy");
-      this.$store.dispatch("bigunexcited");
-      // this.smallexcited();
+      this.$store.dispatch("smallunexcited");
     }, 600000);
 
     //每次打开 报下时间和万年历
@@ -644,5 +645,12 @@ components:{
 }
 body {
   background: none;
+}
+.mood{
+    position: fixed;
+    z-index: 99999;
+    bottom: 18px;
+    transform: scale(0.3);
+    left: 35px;
 }
 </style>
