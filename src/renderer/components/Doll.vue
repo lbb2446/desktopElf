@@ -588,7 +588,7 @@ components:{
     setInterval(() => {
       this.$store.dispatch("smallunhappy");
       this.$store.dispatch("smallunexcited");
-    }, 600000);
+    }, 6000000);
 
     //每次打开 报下时间和万年历
     //如果设置随机刷新套装就刷新套装
