@@ -1,16 +1,13 @@
 <template>
   <div>
     <div class="content"  >
-
       <div class="heart">
-
         <p class="title"></p>
         <div class="heart anime" :style="{'--speed':speed,'--colors':color}"></div>
         <div class="hearts">
           <div  class="heart2"></div>
           <div class="heart3"></div>
           <div class="heart4"></div>
-
         </div>
       </div>
     </div>

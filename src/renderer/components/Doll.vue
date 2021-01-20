@@ -68,7 +68,7 @@
         <Button shape="circle"
         icon="md-body"
         @click="modal3=true"></Button> 
-      好感：{{happy}} 心情 {{excited}}  
+      好感{{happy}} 心情 {{excited}}  
     </div>
     <mood></mood>
     <li class="doll"
@@ -463,7 +463,7 @@ components:{
   },
   methods: {
     getOpacity(i){
-      console.log(this.opcity[i])
+    
         if(this.opcity[i]!=0&&this.opcity[i]!=undefined){
           return this.opcity[i]/100
         }
@@ -519,19 +519,20 @@ components:{
     },
     toggle(show) {
       this.$store.dispatch("smallhappy");
-      this.show = !this.show;
-
+       this.show = !this.show;
       if (this.show) {
         this.$electron.ipcRenderer.send("changesize", {
           width: 604,
-          height: 1000
+          height: 430
         });
       } else {
         this.$electron.ipcRenderer.send("changesize", {
           width: 204,
-          height: 426
+          height: 430
         });
       }
+     
+
     },
     getImg(name) {
       return require(`./../assets/doll1/${name}.png`);
@@ -585,9 +586,24 @@ components:{
     if (localStorage.getItem("checked") != null) {
       this.checked = JSON.parse(localStorage.getItem("checked"));
     }
+
+    setInterval(() => {
+     this.$http.get("http://v3.wufazhuce.com:8000/api/channel/one/0/%E6%9D%AD%E5%B7%9E").then(({data})=>{
+        let {data:{
+          weather,content_list
+        }}=data;
+        let  {city_name,date,climate,humidity,hurricane,temperature,wind_direction}=weather;
+        let [info]=content_list
+        log(`今天是${date},${city_name}的天气是${climate}.现在的温度是${temperature}度.我想对你说：${info.forward}`)
+        this.$store.dispatch("smallhappy");
+      })
+         }, 600000);
     setInterval(() => {
       this.$store.dispatch("smallunhappy");
       this.$store.dispatch("smallunexcited");
+
+
+     
     }, 6000000);
 
     //每次打开 报下时间和万年历
