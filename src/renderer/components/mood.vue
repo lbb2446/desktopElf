@@ -32,7 +32,7 @@ import {store,mutations} from './minimood'
 <style scoped>
     .info{
         position: absolute;
-        top:35px;
+        bottom:35px;
         z-index: 99999999;
         background: #fff;
         padding: 5px; 
