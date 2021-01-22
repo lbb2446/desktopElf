@@ -1,6 +1,6 @@
 import Vue from 'vue';
-
-//第一次加载先加载缓存
+//test
+//第一次加载先加载缓存TT
 let tmp=[]
 if(localStorage.getItem("tmps")!=null){
     tmp=JSON.parse(localStorage.getItem("tmps"))
