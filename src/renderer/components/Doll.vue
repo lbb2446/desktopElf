@@ -602,8 +602,6 @@ components:{
       this.$store.dispatch("smallunhappy");
       this.$store.dispatch("smallunexcited");
 
-
-     
     }, 6000000);
 
     //每次打开 报下时间和万年历
