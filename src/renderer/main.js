@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import VueContextMenu from '@xunlei/vue-context-menu'
 
 import App from './App'
 import router from './router'
@@ -15,6 +16,7 @@ import db from './datastore.js'
 // Vue.use(ref, { name: 'ant-ref' })
 Vue.prototype.$db = db
 Vue.use(iView)
+Vue.use(VueContextMenu)
 // import { DatePicker } from 'ant-design-vue'
 // import 'ant-design-vue/dist/antd.css'
 // Vue.use(DatePicker)
@@ -24,7 +26,9 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-  components: { App },
+  components: {
+    App
+  },
   router,
   store,
   template: '<App/>'

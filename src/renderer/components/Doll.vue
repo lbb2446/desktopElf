@@ -1,52 +1,55 @@
 <template>
   <div class="hello"
     id="wrapper">
-       <Modal
-        v-model="modal1"
-        title="保存当前的服饰与表情到缓存中"
-        @on-ok="save1"
-       >
-        <p>套装名称：</p> <Input v-model="addtmp.name" placeholder="Enter something..." style="width: 300px" />
-        <p>心情节点</p> <InputNumber
-            :max="100"
-            v-model="addtmp.happy"
-            :formatter="value => `${value}%`"
-            :parser="value => value/100"></InputNumber>
-        <p>情绪节点：</p><InputNumber
-            :max="100"
-            v-model="addtmp.excited"
-            :formatter="value => `${value}%`"
-            :parser="value => value/100"></InputNumber>
+    <Modal v-model="modal1"
+      title="保存当前的服饰与表情到缓存中"
+      @on-ok="save1">
+      <p>套装名称：</p> <Input v-model="addtmp.name"
+        placeholder="Enter something..."
+        style="width: 300px" />
+      <p>心情节点</p>
+      <InputNumber :max="100"
+        v-model="addtmp.happy"
+        :formatter="value => `${value}%`"
+        :parser="value => value/100"></InputNumber>
+      <p>情绪节点：</p>
+      <InputNumber :max="100"
+        v-model="addtmp.excited"
+        :formatter="value => `${value}%`"
+        :parser="value => value/100"></InputNumber>
 
     </Modal>
-    <Modal
-        v-model="modal2"
-        title="缓存列表"
-      
-       >
-        <List>
-            <ListItem v-for="(t,i) in list" :key="i" >
-                <div @click="reshow(i)" >{{t.name}}</div> <div @click="deletecache(i)">删除</div>
-            </ListItem>
-        </List>
+    <Modal v-model="modal2"
+      title="缓存列表">
+      <List>
+        <ListItem v-for="(t,i) in list"
+          :key="i">
+          <div @click="reshow(i)">{{t.name}}</div>
+          <div @click="deletecache(i)">删除</div>
+        </ListItem>
+      </List>
 
     </Modal>
-     <Modal
-        v-model="modal3"
-        title="透明度调整"
-      
-       >
-       <p>outside_f</p>  <Slider v-model="opcity.outside_f"  ></Slider>
-       <p>bottom</p>  <Slider v-model="opcity.bottom"  ></Slider>
-       <p>outside_b</p>  <Slider v-model="opcity.outside_b"  ></Slider>
-       <p>top</p>  <Slider v-model="opcity.top"  ></Slider>
-       <p>under</p>  <Slider v-model="opcity.under"  ></Slider>
+    <Modal v-model="modal3"
+      title="透明度调整">
+      <p>outside_f</p>
+      <Slider v-model="opcity.outside_f"></Slider>
+      <p>bottom</p>
+      <Slider v-model="opcity.bottom"></Slider>
+      <p>outside_b</p>
+      <Slider v-model="opcity.outside_b"></Slider>
+      <p>top</p>
+      <Slider v-model="opcity.top"></Slider>
+      <p>under</p>
+      <Slider v-model="opcity.under"></Slider>
 
     </Modal>
     <div class="mood">
-      <heart :excited="excited" :happy="happy"></heart>
+      <heart :excited="excited"
+        :happy="happy"></heart>
     </div>
-    <div style="position:fixed;z-index:99999">
+
+    <!-- <div style="position:fixed;z-index:99999">
       <Button shape="circle"
         icon="md-hand"
         style="-webkit-app-region: drag;"></Button>
@@ -69,28 +72,60 @@
         icon="md-body"
         @click="modal3=true"></Button> 
       好感{{happy}} 心情 {{excited}}  
-    </div>
+    </div> -->
     <mood></mood>
+    <context-menu class="right-menu"
+      :target="contextMenuTarget"
+      :show="contextMenuVisible"
+      @update:show="(show) => contextMenuVisible = show">
+      <Button shape="circle"
+        icon="md-hand"
+        style="-webkit-app-region: drag;"></Button>
+      <Button shape="circle"
+        icon="md-settings"
+        @click="toggle(!show)"></Button>
+      <Button shape="circle"
+        icon="ios-arrow-round-down"
+        @click="save"></Button>
+      <Button shape="circle"
+        icon="ios-arrow-round-up"
+        @click="modal1=true"></Button>
+      <Button shape="circle"
+        icon="md-list"
+        @click="modal2=true"></Button>
+      <Button shape="circle"
+        icon="ios-happy"
+        @click="randomChange"></Button>
+      <Button shape="circle"
+        icon="md-body"
+        @click="modal3=true"></Button>
+      好感{{happy}} 心情 {{excited}}
+    </context-menu>
     <li class="doll"
+      ref="doll"
+      id="doll-furong"
       :style="{zIndex:1000-i}"
       v-for="(v,k,i) in body"
       :key="v">
 
       <img v-if="checked.includes(k)"
-        :src="getImg(v)" :style="{
+        :src="getImg(v)"
+        :style="{
           opacity:getOpacity(k)
         }"
         :alt="i">
     </li>
+
     <List v-if="show"
-      class="tool" 
+      class="tool"
       border>
       <CheckboxGroup v-model="checked">
 
         <ListItem v-for="(v,k) in config"
           :key="k">
           <Checkbox :label="k"></Checkbox>
-          <Select @on-change="clothChange" style="width:200px"
+          <Select @on-change="clothChange"
+            style="width:200px"
             v-model="body[k]">
             <Option v-for="item in v"
               :value="item.value"
@@ -108,11 +143,11 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import {store,mutations} from './ministore'
-import heart from './Menu/heart.vue'
-import {log} from './minimood'
-import mood from './mood.vue';
-import {} from './utils.js';
+import { store, mutations } from "./ministore";
+import heart from "./Menu/heart.vue";
+import { log } from "./minimood";
+import mood from "./mood.vue";
+import {} from "./utils.js";
 import {
   face_b,
   face_f,
@@ -352,20 +387,22 @@ function findMood(happy, excited) {
 
 export default {
   name: "lotus",
-components:{
-  mood,
-  heart
-},
+  components: {
+    mood,
+    heart
+  },
   data() {
     return {
-      addtmp:{
-        name:"",
-        excited:0,
-        happy:0
+      contextMenuVisible: false,
+      contextMenuTarget: "",
+      addtmp: {
+        name: "",
+        excited: 0,
+        happy: 0
       },
-      modal1:false,
-       modal2:false,
-       modal3:false,
+      modal1: false,
+      modal2: false,
+      modal3: false,
       show: false,
       theme: [
         {
@@ -419,12 +456,12 @@ components:{
         outside_b: "outer_muton_back",
         hair_b: "hair_semi_back_main_vampire"
       },
-      opcity:{
-        outside_f:100,
-        bottom:100,
-        outside_b:100,
-        top:100,
-        under:100
+      opcity: {
+        outside_f: 100,
+        bottom: 100,
+        outside_b: 100,
+        top: 100,
+        under: 100
       },
       config: {
         hair_f: seletedDecoration(hair_f),
@@ -462,64 +499,62 @@ components:{
     }
   },
   methods: {
-    getOpacity(i){
-    
-        if(this.opcity[i]!=0&&this.opcity[i]!=undefined){
-          return this.opcity[i]/100
-        }
-        return 1
-
-    },
-    deletecache(i){
-        this.$delete(store.tmps,i)
-    },
-    reshow(i){
-      this.$store.dispatch("smallexcited");
-      this.body= store.tmps[i].body
-      if(store.tmps[i].checked){
-     this.checked= store.tmps[i].checked
+    getOpacity(i) {
+      if (this.opcity[i] != 0 && this.opcity[i] != undefined) {
+        return this.opcity[i] / 100;
       }
- 
-      this.modal2=false
+      return 1;
     },
-    save1(){
-      mutations.add({name:this.addtmp.name,
-      excited:this.addtmp.excited,
-      happy:this.addtmp.happy,
-      body:this.body,
-      checked:this.checked})
+    deletecache(i) {
+      this.$delete(store.tmps, i);
     },
-    clothChange(){
+    reshow(i) {
+      this.$store.dispatch("smallexcited");
+      this.body = store.tmps[i].body;
+      if (store.tmps[i].checked) {
+        this.checked = store.tmps[i].checked;
+      }
+
+      this.modal2 = false;
+    },
+    save1() {
+      mutations.add({
+        name: this.addtmp.name,
+        excited: this.addtmp.excited,
+        happy: this.addtmp.happy,
+        body: this.body,
+        checked: this.checked
+      });
+    },
+    clothChange() {
       this.$store.dispatch("smallexcited");
     },
-    saveInTmp(){
+    saveInTmp() {
       this.theme.push({
-          name: "基础",
-          cat: "acce_glass_red",
-          hair_f: "hair_normal_front_main_normal",
-          face_f: "face_shy_front",
-          face_b: "face_shy_back_japan",
-          hair_s: "hair_normal_front_shadow",
-          outside_f: "outer_muton_front",
-          top: "tops_neck_no_white",
-          bottom: "bottoms_tight_black",
-          under: "under_rope",
-          body: "nude",
-          outside_b: "outer_muton_back",
-          hair_b: "hair_semi_back_main_vampire"
-        })
-      
+        name: "基础",
+        cat: "acce_glass_red",
+        hair_f: "hair_normal_front_main_normal",
+        face_f: "face_shy_front",
+        face_b: "face_shy_back_japan",
+        hair_s: "hair_normal_front_shadow",
+        outside_f: "outer_muton_front",
+        top: "tops_neck_no_white",
+        bottom: "bottoms_tight_black",
+        under: "under_rope",
+        body: "nude",
+        outside_b: "outer_muton_back",
+        hair_b: "hair_semi_back_main_vampire"
+      });
     },
     save() {
       this.$store.dispatch("smallhappy");
       this.$store.dispatch("smallexcited");
       localStorage.setItem("body", JSON.stringify(this.body));
       localStorage.setItem("checked", JSON.stringify(this.checked));
-    
     },
     toggle(show) {
       this.$store.dispatch("smallhappy");
-       this.show = !this.show;
+      this.show = !this.show;
       if (this.show) {
         this.$electron.ipcRenderer.send("changesize", {
           width: 604,
@@ -531,8 +566,6 @@ components:{
           height: 430
         });
       }
-     
-
     },
     getImg(name) {
       return require(`./../assets/doll1/${name}.png`);
@@ -572,12 +605,13 @@ components:{
         return state.Counter.excited.toFixed(2);
       }
     }),
-    list(){
-      return store.tmps
+    list() {
+      return store.tmps;
     }
   },
   mounted() {
-    log("我是芙蓉~")
+    log("我是芙蓉~");
+    this.contextMenuTarget = this.$refs.doll[0];
     //如果缓存里有数据 就直接读取上次缓存的数据
     if (localStorage.getItem("body") != null) {
       this.body = JSON.parse(localStorage.getItem("body"));
@@ -588,20 +622,33 @@ components:{
     }
 
     setInterval(() => {
-     this.$http.get("http://v3.wufazhuce.com:8000/api/channel/one/0/%E6%9D%AD%E5%B7%9E").then(({data})=>{
-        let {data:{
-          weather,content_list
-        }}=data;
-        let  {city_name,date,climate,humidity,hurricane,temperature,wind_direction}=weather;
-        let [info]=content_list
-        log(`今天是${date},${city_name}的天气是${climate}.现在的温度是${temperature}度.我想对你说：${info.forward}`)
-        this.$store.dispatch("smallhappy");
-      })
-         }, 600000);
+      this.$http
+        .get(
+          "http://v3.wufazhuce.com:8000/api/channel/one/0/%E6%9D%AD%E5%B7%9E"
+        )
+        .then(({ data }) => {
+          let {
+            data: { weather, content_list }
+          } = data;
+          let {
+            city_name,
+            date,
+            climate,
+            humidity,
+            hurricane,
+            temperature,
+            wind_direction
+          } = weather;
+          let [info] = content_list;
+          log(
+            `今天是${date},${city_name}的天气是${climate}.现在的温度是${temperature}度.我想对你说：${info.forward}`
+          );
+          this.$store.dispatch("smallhappy");
+        });
+    }, 600000);
     setInterval(() => {
       this.$store.dispatch("smallunhappy");
       this.$store.dispatch("smallunexcited");
-
     }, 6000000);
 
     //每次打开 报下时间和万年历
@@ -660,11 +707,11 @@ components:{
 body {
   background: none;
 }
-.mood{
-    position: fixed;
-    z-index: 99999;
-    bottom: 18px;
-    transform: scale(0.3);
-    left: 35px;
+.mood {
+  position: fixed;
+  z-index: 99999;
+  bottom: 18px;
+  transform: scale(0.3);
+  left: 35px;
 }
 </style>

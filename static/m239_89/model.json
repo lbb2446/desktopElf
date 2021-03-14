@@ -1,1 +1,0 @@
-{"version":"Sample 1.0.0","model":"character.dat","textures":["00000005.png","00000006.png"],"motions":{"attack":[{"file":"00000002.txt.mtn","fade_in":0,"fade_out":0}],"hit":[{"file":"00000003.txt.mtn","fade_in":0,"fade_out":0}],"idle":[{"file":"00000004.txt.mtn","fade_in":0,"fade_out":0}]},"lbb":"11"}
