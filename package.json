@@ -54,7 +54,7 @@
   },
   "dependencies": {
     "@xunlei/vue-context-menu": "^1.0.2",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "iview": "^3.4.2",
     "moment": "^2.24.0",
     "nedb": "^1.8.0",
