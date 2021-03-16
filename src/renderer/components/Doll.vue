@@ -74,33 +74,7 @@
       好感{{happy}} 心情 {{excited}}  
     </div> -->
     <mood></mood>
-    <context-menu class="right-menu"
-      :target="contextMenuTarget"
-      :show="contextMenuVisible"
-      @update:show="(show) => contextMenuVisible = show">
-      <Button shape="circle"
-        icon="md-hand"
-        style="-webkit-app-region: drag;"></Button>
-      <Button shape="circle"
-        icon="md-settings"
-        @click="toggle(!show)"></Button>
-      <Button shape="circle"
-        icon="ios-arrow-round-down"
-        @click="save"></Button>
-      <Button shape="circle"
-        icon="ios-arrow-round-up"
-        @click="modal1=true"></Button>
-      <Button shape="circle"
-        icon="md-list"
-        @click="modal2=true"></Button>
-      <Button shape="circle"
-        icon="ios-happy"
-        @click="randomChange"></Button>
-      <Button shape="circle"
-        icon="md-body"
-        @click="modal3=true"></Button>
-      好感{{happy}} 心情 {{excited}}
-    </context-menu>
+
     <li class="doll"
       ref="doll"
       id="doll-furong"
@@ -620,6 +594,36 @@ export default {
     if (localStorage.getItem("checked") != null) {
       this.checked = JSON.parse(localStorage.getItem("checked"));
     }
+
+    this.$electron.ipcRenderer.on("actions", (event, action) => {
+      if (action === "settings") {
+        this.toggle(!this.show);
+      }
+
+      if (action === "save") {
+        this.save();
+      }
+
+      if (action === "save1") {
+        this.save1();
+      }
+      if (action === "list") {
+        this.modal1 = true;
+      }
+      if (action === "changeOpacity") {
+        this.modal2 = true;
+      }
+      if (action === "refreshFace") {
+        this.randomChange();
+      }
+      if (action === "save") {
+        this.modal3 = true;
+      }
+
+      if (action === "hide") {
+        this.toggle(false);
+      }
+    });
 
     setInterval(() => {
       this.$http

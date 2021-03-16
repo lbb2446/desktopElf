@@ -1,11 +1,13 @@
 <template>
   <div>
-    <div class="content"  >
-      <div class="heart">
+    <div class="content">
+      <div style="-webkit-app-region: drag;"
+        class="heart">
         <p class="title"></p>
-        <div class="heart anime" :style="{'--speed':speed,'--colors':color}"></div>
+        <div class="heart anime"
+          :style="{'--speed':speed,'--colors':color}"></div>
         <div class="hearts">
-          <div  class="heart2"></div>
+          <div class="heart2"></div>
           <div class="heart3"></div>
           <div class="heart4"></div>
         </div>
@@ -17,29 +19,23 @@
 <script>
 export default {
   name: "love",
-  props:[
-      "excited",
-      "happy"
-  ],
-  computed:{
-      speed(){
-          return  (1.2-(this.excited*0.5+0.6))+"s"
-      },
-      color(){
-          console.log( "rgba("+(this.happy*50+150)+", 73, 73, 1)")
-          return  "rgba("+parseInt(this.happy*50+200)+", 73, 73, 1)"
-      }
+  props: ["excited", "happy"],
+  computed: {
+    speed() {
+      return 1.2 - (this.excited * 0.5 + 0.6) + "s";
+    },
+    color() {
+      console.log("rgba(" + (this.happy * 50 + 150) + ", 73, 73, 1)");
+      return "rgba(" + parseInt(this.happy * 50 + 200) + ", 73, 73, 1)";
+    }
   },
   data() {
-    return {
-    };
-  },
+    return {};
+  }
 };
 </script>
 
 <style  scoped>
-
-
 /* elements container */
 .content {
   display: flex;
@@ -88,7 +84,7 @@ export default {
 .heart:before,
 .heart:after {
   position: absolute;
-  background-color: var(--colors) ;
+  background-color: var(--colors);
   content: "";
   width: 50%;
   height: 75%;
@@ -137,16 +133,16 @@ export default {
 
 @keyframes title {
   0%,
-   25%,
-   100% {
+  25%,
+  100% {
     transform: rotate(0deg);
   }
   5%,
-   15% {
+  15% {
     transform: rotate(5deg);
   }
   10%,
-   20% {
+  20% {
     transform: rotate(-5deg);
   }
 }
@@ -296,6 +292,4 @@ export default {
   border-radius: 400px 400px 100px 0px;
   right: 10%;
 }
-
-  
 </style>

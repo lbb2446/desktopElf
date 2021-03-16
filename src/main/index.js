@@ -65,38 +65,88 @@ ipcMain.on('sendmsg', (event, arg) => {
 
 })
 
+
 ipcMain.on('changesize', (event, arg) => {
   console.log(arg.width, arg.height)
   mainWindow.setSize(arg.width, arg.height)
   // mainWindow.setSize(554, 430)
 })
+let tray = {};
 app.on('ready', async () => {
   // if (isDevelopment && !process.env.IS_TEST) {
   // }
   // 设置托盘
   await createWindow()
-  let iconPath = path.join(__dirname, "../renderer/assets/logo.png")
-  const tray = new Tray(iconPath)
+
   // 设置托盘菜单
+  let iconPath = path.join(__dirname, "../renderer/assets/logo.png")
+  tray = new Tray(iconPath)
+
   const trayContextMenu = Menu.buildFromTemplate([{
-    label: '打开',
-    click: () => {
-      mainWindow.show()
+      label: '恢复',
+      click: () => {
+        mainWindow.show()
+        mainWindow.send('actions', "hide")
+      }
+    },
+    {
+      label: '设置服饰',
+      click: () => {
+        mainWindow.send('actions', "settings")
+      }
+    },
+    {
+      label: '保存',
+      click: () => {
+        mainWindow.send('actions', "save")
+      }
+    },
+    {
+      label: '保存到缓存',
+      click: () => {
+        mainWindow.send('actions', "save1")
+      }
+    },
+    {
+      label: '缓存列表',
+      click: () => {
+        mainWindow.send('actions', "list")
+      }
+    },
+    {
+      label: '开启特效',
+      click: () => {
+        mainWindow.send('actions', "changeOpacity")
+      }
+    },
+    {
+      label: '更新表情',
+      click: () => {
+        mainWindow.send('actions', "refreshFace")
+      }
+    },
+    {
+      label: '保存到库',
+      click: () => {
+        mainWindow.send('actions', "save1")
+      }
+    },
+    {
+      label: '退出',
+      click: () => {
+        app.quit()
+      }
     }
-  }, {
-    label: '退出',
-    click: () => {
-      app.quit()
-    }
-  }])
+  ])
   tray.setToolTip('myApp')
+  tray.setContextMenu(trayContextMenu)
   tray.on('click', () => {
     mainWindow.show()
+    tray.popUpContextMenu(trayContextMenu)
   })
   tray.on('right-click', () => {
     tray.popUpContextMenu(trayContextMenu)
   })
-
 })
 
 app.on('window-all-closed', () => {
