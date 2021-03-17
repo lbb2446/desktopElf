@@ -4,7 +4,8 @@ import {
   app,
   BrowserWindow,
   Tray,
-  Menu
+  Menu,
+  remote
 } from 'electron'
 
 let path = require("path")
@@ -71,18 +72,15 @@ ipcMain.on('changesize', (event, arg) => {
   mainWindow.setSize(arg.width, arg.height)
   // mainWindow.setSize(554, 430)
 })
-let tray = {};
+let tray = null;
+let trayContextMenu = null
 app.on('ready', async () => {
   // if (isDevelopment && !process.env.IS_TEST) {
   // }
   // 设置托盘
-  await createWindow()
-
-  // 设置托盘菜单
-  let iconPath = path.join(__dirname, "../renderer/assets/logo.png")
+  let iconPath = path.join(__static, "/logo.png")
   tray = new Tray(iconPath)
-
-  const trayContextMenu = Menu.buildFromTemplate([{
+  trayContextMenu = Menu.buildFromTemplate([{
       label: '恢复',
       click: () => {
         mainWindow.show()
@@ -138,8 +136,15 @@ app.on('ready', async () => {
       }
     }
   ])
-  tray.setToolTip('myApp')
+
   tray.setContextMenu(trayContextMenu)
+  await createWindow()
+
+  // 设置托盘菜单
+
+
+
+
   tray.on('click', () => {
     mainWindow.show()
     tray.popUpContextMenu(trayContextMenu)
