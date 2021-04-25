@@ -651,9 +651,20 @@ export default {
         });
     }, 600000);
     setInterval(() => {
-      this.$store.dispatch("smallunhappy");
-      this.$store.dispatch("smallunexcited");
-    }, 6000000);
+      let _r = Math.random();
+      if (_r > 0.5) {
+        this.$store.dispatch("smallunhappy");
+      } else {
+        this.$store.dispatch("smallhappy");
+      }
+
+      let _r1 = Math.random();
+      if (_r1 > 0.5) {
+        this.$store.dispatch("smallexcited");
+      } else {
+        this.$store.dispatch("smallunexcited");
+      }
+    }, 60000);
 
     //每次打开 报下时间和万年历
     //如果设置随机刷新套装就刷新套装

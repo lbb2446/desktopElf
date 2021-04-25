@@ -80,6 +80,9 @@ app.on('ready', async () => {
   // 设置托盘
   let iconPath = path.join(__static, "/logo.png")
   tray = new Tray(iconPath)
+
+  
+
   trayContextMenu = Menu.buildFromTemplate([{
       label: '恢复',
       click: () => {
@@ -94,7 +97,7 @@ app.on('ready', async () => {
       }
     },
     {
-      label: '保存',
+      label: '透明度保存',
       click: () => {
         mainWindow.send('actions', "save")
       }
@@ -106,13 +109,13 @@ app.on('ready', async () => {
       }
     },
     {
-      label: '缓存列表',
+      label: '保存到缓存列表中',
       click: () => {
         mainWindow.send('actions', "list")
       }
     },
     {
-      label: '开启特效',
+      label: '缓存列表',
       click: () => {
         mainWindow.send('actions', "changeOpacity")
       }
@@ -121,12 +124,6 @@ app.on('ready', async () => {
       label: '更新表情',
       click: () => {
         mainWindow.send('actions', "refreshFace")
-      }
-    },
-    {
-      label: '保存到库',
-      click: () => {
-        mainWindow.send('actions', "save1")
       }
     },
     {
